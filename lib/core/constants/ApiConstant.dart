@@ -10,5 +10,5 @@
 library;
 
 class ApiConstant {
-  static const String baseUrl = "http://localhost:5129/api";
+  static const String baseUrl = "https://mi-tension-backend.up.railway.app";
 }
