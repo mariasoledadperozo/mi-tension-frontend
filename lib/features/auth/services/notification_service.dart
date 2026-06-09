@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:mi_tension/core/enums/diasSemana.dart';
 import 'package:mi_tension/features/auth/models/recordatorio_dto.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
@@ -10,19 +11,13 @@ class NotificationService {
 
   static Future<void> inicializar() async {
     if (_inicializado) return;
-
     _plugin = FlutterLocalNotificationsPlugin();
     tz.initializeTimeZones();
+    tz.setLocalLocation(tz.getLocation('Europe/Madrid'));
 
     const android = AndroidInitializationSettings('@mipmap/ic_launcher');
     const settings = InitializationSettings(android: android);
     await _plugin!.initialize(settings);
-
-    final androidPlugin = _plugin!
-        .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin
-        >();
-    await androidPlugin?.requestNotificationsPermission();
 
     _inicializado = true;
   }
@@ -31,13 +26,10 @@ class NotificationService {
     RecordatorioDto recordatorio,
   ) async {
     if (_plugin == null) return;
-
     await cancelarRecordatorio(recordatorio.id);
-
     for (final dia in recordatorio.dias) {
       final id = _generarId(recordatorio.id, dia);
       final hora = _parsearHora(recordatorio.hora);
-
       await _plugin!.zonedSchedule(
         id,
         'Recordatorio de medicación',
@@ -85,7 +77,6 @@ class NotificationService {
 
   static tz.TZDateTime _proximaFecha(DiasSemana dia, TimeOfDay hora) {
     final ahora = tz.TZDateTime.now(tz.local);
-
     final diasSemana = {
       DiasSemana.lunes: DateTime.monday,
       DiasSemana.martes: DateTime.tuesday,
@@ -95,7 +86,6 @@ class NotificationService {
       DiasSemana.sabado: DateTime.saturday,
       DiasSemana.domingo: DateTime.sunday,
     };
-
     var fecha = tz.TZDateTime(
       tz.local,
       ahora.year,
@@ -104,15 +94,12 @@ class NotificationService {
       hora.hour,
       hora.minute,
     );
-
     while (fecha.weekday != diasSemana[dia]) {
       fecha = fecha.add(const Duration(days: 1));
     }
-
     if (fecha.isBefore(ahora)) {
       fecha = fecha.add(const Duration(days: 7));
     }
-
     return fecha;
   }
 }

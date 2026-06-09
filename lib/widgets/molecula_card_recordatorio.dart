@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mi_tension/core/enums/diasSemana.dart';
 import 'package:mi_tension/features/auth/models/recordatorio_dto.dart';
 import 'package:mi_tension/features/auth/services/reminders_service.dart';
 import 'package:mi_tension/features/theme/app_theme.dart';
 import 'package:mi_tension/widgets/atomo_boton_dia.dart';
+import 'package:mi_tension/widgets/atomo_input_principal.dart';
 
 class MoleculaCardRecordatorio extends StatefulWidget {
   final RecordatorioDto recordatorio;
@@ -127,36 +129,48 @@ class _MoleculaCardRecordatorioState extends State<MoleculaCardRecordatorio> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  TextField(
+                  AtomoInputPrincipal(
+                    label: "Medicamento",
+                    placeholder: "Ej: Alprazolam",
                     controller: _nombreController,
-                    decoration: const InputDecoration(
-                      labelText: 'Nombre del medicamento',
-                      border: OutlineInputBorder(),
-                    ),
                   ),
                   const SizedBox(height: 12),
-                  TextField(
+                  AtomoInputPrincipal(
+                    label: "Dosis",
+                    placeholder: "Ej: 10mg",
                     controller: _dosisController,
-                    decoration: const InputDecoration(
-                      labelText: 'Dosis',
-                      border: OutlineInputBorder(),
-                    ),
                   ),
                   const SizedBox(height: 12),
-                  TextField(
-                    controller: _horaController,
-                    decoration: const InputDecoration(
-                      labelText: 'Hora (HH:mm)',
-                      border: OutlineInputBorder(),
+                  GestureDetector(
+                    onTap: () async {
+                      final hora = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      );
+                      if (hora != null) {
+                        setModalState(() {
+                          _horaController.text =
+                              '${hora.hour.toString().padLeft(2, '0')}:${hora.minute.toString().padLeft(2, '0')}';
+                        });
+                      }
+                    },
+                    child: AbsorbPointer(
+                      child: AtomoInputPrincipal(
+                        label: "Hora",
+                        placeholder: "--:--",
+                        controller: _horaController,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 16),
                   const Text(
-                    'Días',
+                    'DÍAS',
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1.2,
+                      color: AppTheme.descriptionGray,
                       fontFamily: 'sf',
-                      color: AppTheme.mainTitleBlack,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -202,9 +216,9 @@ class _MoleculaCardRecordatorioState extends State<MoleculaCardRecordatorio> {
                             {
                               "nombreMedicina": _nombreController.text,
                               "dosis": _dosisController.text,
-                              "hora": _horaController.text,
+                              "hora": "${_horaController.text}:00",
                               "dias": _diasSeleccionados
-                                  .map((d) => d.name)
+                                  .map((d) => d.index)
                                   .toList(),
                               "activo": _activo,
                             },
@@ -215,9 +229,7 @@ class _MoleculaCardRecordatorioState extends State<MoleculaCardRecordatorio> {
                         } catch (e) {
                           if (mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Error al guardar los cambios'),
-                              ),
+                              SnackBar(content: Text(e.toString())),
                             );
                           }
                         }
@@ -266,11 +278,9 @@ class _MoleculaCardRecordatorioState extends State<MoleculaCardRecordatorio> {
                   setState(() => _eliminado = true);
                 } catch (e) {
                   if (mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Error al eliminar el recordatorio'),
-                      ),
-                    );
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(e.toString())));
                   }
                 }
               },

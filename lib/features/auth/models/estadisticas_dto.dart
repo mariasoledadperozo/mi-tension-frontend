@@ -21,14 +21,14 @@ class EstadisticasDto {
 
   factory EstadisticasDto.fromJson(Map<String, dynamic> json) {
     return EstadisticasDto(
-      totalRegistros: json["totalRegistros"] ?? 0,
-      promedioSistolica: json["promedioSistolica"] ?? 0,
-      promedioDiastolica: json["promedioDiastolica"] ?? 0,
-      promedioPulso: json["promedioPulso"] ?? 0,
-      registrosNormales: json["registrosNormales"] ?? 0,
-      registrosBien: json["registrosBien"] ?? 0,
-      registrosAltos: json["registrosAltos"] ?? 0,
-      registrosMuyAltos: json["registrosMuyAltos"] ?? 0,
+      totalRegistros: (json["totalRegistros"] ?? 0).toInt(),
+      promedioSistolica: (json["promedioSistolica"] ?? 0).toInt(),
+      promedioDiastolica: (json["promedioDiastolica"] ?? 0).toInt(),
+      promedioPulso: (json["promedioPulso"] ?? 0).toInt(),
+      registrosNormales: (json["registrosNormales"] ?? 0).toInt(),
+      registrosBien: (json["registrosBien"] ?? 0).toInt(),
+      registrosAltos: (json["registrosAltos"] ?? 0).toInt(),
+      registrosMuyAltos: (json["registrosMuyAltos"] ?? 0).toInt(),
     );
   }
 }

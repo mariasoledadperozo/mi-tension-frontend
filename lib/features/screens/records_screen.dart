@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mi_tension/features/auth/models/presion_registro_dto.dart';
 import 'package:mi_tension/features/auth/services/estadisticas_service.dart';
+import 'package:mi_tension/features/theme/app_theme.dart';
 import 'package:mi_tension/widgets/molecula_appBar_principal.dart';
 import 'package:mi_tension/widgets/molecula_card_registro.dart';
 import 'package:mi_tension/widgets/organismo_card_sinInformacion.dart';
@@ -60,7 +61,10 @@ class _RecordsScreenState extends State<RecordsScreen> {
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Eliminar', style: TextStyle(color: Colors.red)),
+            child: const Text(
+              'Eliminar',
+              style: TextStyle(color: AppTheme.buttonRed),
+            ),
           ),
         ],
       ),

@@ -112,10 +112,15 @@ class _CreateRecordScreenState extends State<CreateRecordScreen> {
       await OrganismoPopupAnalisis.mostrar(context, registro);
       if (!mounted) return;
       Navigator.pop(context);
-    } catch (e) {
+    } catch (e, stack) {
+      debugPrint('ERROR: $e');
+      debugPrint('STACK: $stack');
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Error al crear el registro")),
+        SnackBar(
+          content: Text(e.toString()),
+          duration: const Duration(seconds: 8),
+        ),
       );
     } finally {
       if (mounted) setState(() => _guardando = false);

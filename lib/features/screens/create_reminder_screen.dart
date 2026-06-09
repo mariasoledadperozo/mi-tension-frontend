@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mi_tension/core/enums/diasSemana.dart';
 import 'package:mi_tension/features/auth/models/recordatorio_dto.dart';
 import 'package:mi_tension/features/auth/services/reminders_service.dart';
 import 'package:mi_tension/core/storage/TokenStorage.dart';
@@ -77,7 +78,7 @@ class _AgregarRecordatorioScreenState extends State<CreateReminderScreen> {
         'nombreMedicina': _medicamentoController.text,
         'dosis': _dosisController.text,
         'hora': _horaController.text,
-        'dias': _diasSeleccionados.map((d) => d.name).toList(),
+        'dias': _diasSeleccionados.map((d) => d.index).toList(), // <-- fix
         'activo': _activo,
       });
 
@@ -88,9 +89,9 @@ class _AgregarRecordatorioScreenState extends State<CreateReminderScreen> {
       Navigator.pop(context);
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Error al crear el recordatorio")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.toString())));
     } finally {
       if (mounted) setState(() => _guardando = false);
     }
@@ -113,24 +114,18 @@ class _AgregarRecordatorioScreenState extends State<CreateReminderScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 10),
-
-                  // Medicamento
                   AtomoInputPrincipal(
                     label: "Medicamento",
                     placeholder: "Ej: Alprazolam",
                     controller: _medicamentoController,
                   ),
                   const SizedBox(height: 16),
-
-                  // Dosis
                   AtomoInputPrincipal(
                     label: "Dosis",
                     placeholder: "Ej: 10mg",
                     controller: _dosisController,
                   ),
                   const SizedBox(height: 16),
-
-                  // Hora
                   const Text(
                     "HORA",
                     style: TextStyle(
@@ -166,8 +161,6 @@ class _AgregarRecordatorioScreenState extends State<CreateReminderScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
-
-                  // Días
                   const Text(
                     "DÍAS",
                     style: TextStyle(
@@ -200,8 +193,6 @@ class _AgregarRecordatorioScreenState extends State<CreateReminderScreen> {
                     ],
                   ),
                   const SizedBox(height: 16),
-
-                  // Activar
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -225,8 +216,6 @@ class _AgregarRecordatorioScreenState extends State<CreateReminderScreen> {
                     ],
                   ),
                   const SizedBox(height: 32),
-
-                  // Botón crear
                   _guardando
                       ? const Center(child: CircularProgressIndicator())
                       : AtomoBotonPrincipal(

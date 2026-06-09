@@ -1,4 +1,4 @@
-enum DiasSemana { lunes, martes, miercoles, jueves, viernes, sabado, domingo }
+import 'package:mi_tension/core/enums/diasSemana.dart';
 
 class RecordatorioDto {
   final String id;
@@ -24,11 +24,7 @@ class RecordatorioDto {
       dosis: json['dosis'],
       hora: json['hora'],
       dias: (json['dias'] as List)
-          .map(
-            (d) => DiasSemana.values.firstWhere(
-              (e) => e.name.toLowerCase() == d.toString().toLowerCase(),
-            ),
-          )
+          .map((d) => DiasSemana.values[d as int])
           .toList(),
       activo: json['activo'] ?? true,
     );

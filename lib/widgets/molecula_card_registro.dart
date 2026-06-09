@@ -19,8 +19,7 @@ class MoleculaCardRegistro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 500,
-      height: 250,
+      width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         border: Border.all(color: AppTheme.descriptionGray.withOpacity(0.3)),
@@ -30,28 +29,41 @@ class MoleculaCardRegistro extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                '${registro.sistolica}/${registro.diastolica}',
-                style: const TextStyle(
-                  fontSize: 70,
-                  fontWeight: FontWeight.bold,
-                  color: AppTheme.mainTitleBlack,
-                  fontFamily: 'sf',
+              Expanded(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Text(
+                        '${registro.sistolica}/${registro.diastolica}',
+                        style: const TextStyle(
+                          fontSize: 70,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.mainTitleBlack,
+                          fontFamily: 'sf',
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      const Text(
+                        'mmHg',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.descriptionGray,
+                          fontFamily: 'sf',
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(width: 10),
-              const Text(
-                'mmHg',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: AppTheme.descriptionGray,
-                  fontFamily: 'sf',
-                ),
-              ),
-              const Spacer(),
               PopupMenuButton<String>(
+                padding: EdgeInsets.zero,
                 icon: const Icon(
                   Icons.more_vert,
                   color: AppTheme.descriptionGray,
@@ -65,7 +77,7 @@ class MoleculaCardRegistro extends StatelessWidget {
                     value: 'editar',
                     child: Row(
                       children: [
-                        Icon(Icons.edit, color: Colors.blue),
+                        Icon(Icons.edit, color: AppTheme.primaryBlue),
                         SizedBox(width: 8),
                         Text('Editar'),
                       ],
@@ -75,9 +87,12 @@ class MoleculaCardRegistro extends StatelessWidget {
                     value: 'eliminar',
                     child: Row(
                       children: [
-                        Icon(Icons.delete, color: Colors.red),
+                        Icon(Icons.delete, color: AppTheme.buttonRed),
                         SizedBox(width: 8),
-                        Text('Eliminar', style: TextStyle(color: Colors.red)),
+                        Text(
+                          'Eliminar',
+                          style: TextStyle(color: AppTheme.buttonRed),
+                        ),
                       ],
                     ),
                   ),

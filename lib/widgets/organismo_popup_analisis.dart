@@ -1,6 +1,7 @@
 // lib/widgets/organismo_popup_analisis.dart
 
 import 'package:flutter/material.dart';
+import 'package:mi_tension/core/enums/estadoPresion.dart';
 import 'package:mi_tension/features/auth/models/presion_registro_dto.dart';
 import 'package:mi_tension/features/theme/app_theme.dart';
 import 'package:mi_tension/widgets/atomo_boton_principal.dart';

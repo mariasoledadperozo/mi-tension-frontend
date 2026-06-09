@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mi_tension/features/theme/app_theme.dart';
 
 class AtomoLabelOpcion extends StatelessWidget {
   final String label;
@@ -19,7 +20,7 @@ class AtomoLabelOpcion extends StatelessWidget {
         child: Text(
           label,
           style: const TextStyle(
-            color: Colors.white,
+            color: AppTheme.whiteTextBackground,
             fontWeight: FontWeight.w500,
             fontSize: 15,
           ),

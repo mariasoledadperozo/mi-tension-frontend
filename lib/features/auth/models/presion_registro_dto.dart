@@ -1,7 +1,6 @@
 import 'dart:ui';
+import 'package:mi_tension/core/enums/estadoPresion.dart';
 import 'package:mi_tension/features/theme/app_theme.dart';
-
-enum EstadoPresion { normal, bien, alta, muyAlta }
 
 class PresionRegistroDto {
   final int id;
@@ -29,29 +28,44 @@ class PresionRegistroDto {
   factory PresionRegistroDto.fromJson(Map<String, dynamic> json) {
     final clasificacion = json["clasificacion"];
     return PresionRegistroDto(
-      id: json["id"] ?? 0,
-      sistolica: json["sistolica"],
-      diastolica: json["diastolica"],
-      pulso: json["pulso"],
+      id: (json["id"] ?? 0).toInt(),
+      sistolica: (json["sistolica"] ?? 0).toInt(),
+      diastolica: (json["diastolica"] ?? 0).toInt(),
+      pulso: json["pulso"] != null ? (json["pulso"]).toInt() : null,
       notas: json["notas"],
       fecha: DateTime.parse(json["fecha"]),
       estado: clasificacion != null
-          ? _mapearEstado(clasificacion["categoria"] ?? "normal")
+          ? _mapearEstadoInt(clasificacion["categoria"] ?? 0)
           : EstadoPresion.normal,
       descripcion: clasificacion?["descripcion"] ?? "Sin clasificar",
       mensaje: clasificacion?["mensaje"] ?? "",
     );
   }
 
-  static EstadoPresion _mapearEstado(String categoria) {
-    switch (categoria.toLowerCase().replaceAll(' ', '')) {
-      case "normal":
+  static EstadoPresion _mapearEstadoInt(dynamic categoria) {
+    if (categoria is String) {
+      switch (categoria) {
+        case 'Normal':
+          return EstadoPresion.normal;
+        case 'Bien':
+          return EstadoPresion.bien;
+        case 'Alta':
+          return EstadoPresion.alta;
+        case 'MuyAlta':
+          return EstadoPresion.muyAlta;
+        default:
+          return EstadoPresion.normal;
+      }
+    }
+
+    switch (categoria as int) {
+      case 0:
         return EstadoPresion.normal;
-      case "bien":
+      case 1:
         return EstadoPresion.bien;
-      case "alta":
+      case 2:
         return EstadoPresion.alta;
-      case "muyalta":
+      case 3:
         return EstadoPresion.muyAlta;
       default:
         return EstadoPresion.normal;
