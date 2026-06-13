@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mi_tension/core/enums/diasSemana.dart';
-import 'package:mi_tension/features/auth/models/recordatorio_dto.dart';
 import 'package:mi_tension/features/auth/services/reminders_service.dart';
 import 'package:mi_tension/core/storage/TokenStorage.dart';
 import 'package:mi_tension/features/theme/app_theme.dart';

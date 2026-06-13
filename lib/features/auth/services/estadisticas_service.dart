@@ -46,8 +46,8 @@ class EstadisticasService {
     final body = {
       "sistolica": sistolica,
       "diastolica": diastolica,
-      if (pulso != null) "pulso": pulso,
-      if (notas != null) "notas": notas,
+      "pulso": ?pulso,
+      "notas": ?notas,
       if (fecha != null) "fecha": fecha.toUtc().toIso8601String(),
     };
     final data = await _api.put("/RegistrosPresion/$id", body);

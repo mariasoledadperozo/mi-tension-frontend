@@ -12,7 +12,7 @@ class AtomoLabelEstadopresion extends StatelessWidget {
 
     final texto = registro.descripcion.toLowerCase() == "sin clasificacion"
         ? "No se ha podido clasificar"
-        : "${registro.descripcion}";
+        : registro.descripcion;
 
     return Container(
       height: 40,

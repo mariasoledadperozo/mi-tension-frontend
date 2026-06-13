@@ -205,7 +205,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        "¿Tomas medicina?",
+                        "¿Tomas medicina para la hipertensión?",
                         style: TextStyle(color: AppTheme.descriptionGray),
                       ),
                       Switch(

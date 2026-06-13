@@ -322,7 +322,7 @@ class _MoleculaCardRecordatorioState extends State<MoleculaCardRecordatorio> {
               ),
               Switch(
                 value: _activo,
-                activeColor: AppTheme.primaryBlue,
+                activeThumbColor: AppTheme.primaryBlue,
                 onChanged: (value) async {
                   setState(() => _activo = value);
                   try {
